@@ -1,0 +1,27 @@
+module.ecports = ({
+    name: "kick",
+    category: "Moderation",
+    $if: "old",
+    code: `
+        $kick[$mentioned[1]]
+        $title[Expulsion]
+        $description[$customEmoji[greencheck] $username[$mentioned[1]] vient de se faire kick
+        pour la raison \`$nomentionMessage\` !]
+        $color[$getvar[color]]
+        $footer[$getvar[footer]]
+        $sendDM[$mentioned[1];Vous venez de vous faire kic du serveur **$serverName[$guildID]**] 
+        $onlyIf[$rolePosition[$highestRole[$clientID]]<$rolePosition[$highestRole[$mentioned[1]]];:x: | Cette personne est hierarchiquement plus élevée ou au même rang que moi !]
+        $onlyIf[$rolePosition[$highestRole[$authorID]]<$rolePosition[$highestRole[$mentioned[1]]];:x: | Cette personne est hierarchiquement plus élevée que vous !]
+        $onlyIf[$mentioned[1]!=$authorID;:x: | Vous ne pouvez vous expulser vous même !]
+        $onlyIf[$mentioned[1]!=;$getvar[nouser]]
+        $onlyPerms[kick;$getvar[noperm]]
+        $suppressErrors[$getvar[error]]
+
+        $if[$getuservar[admin]==true]
+        $else
+        $onlyIf[$getuservar[staffp]==true;$getvar[nocperm]]
+        $endif
+
+        $suppressErrors[$getvar[error]]
+    `
+})

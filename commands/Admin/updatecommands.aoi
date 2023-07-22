@@ -1,0 +1,12 @@
+module.exports = ({
+    name: "update",
+    aliases: ["upt", "upd"],
+    description: "Met à jour toutes les commandes du bot",
+    code: `
+        $title[Update]
+        $description[Mis à jour des commandes du bot ⚙️]
+        $footer[$getvar[footer]]
+        $color[$getvar[color]]
+        $updatecommands
+    `
+})

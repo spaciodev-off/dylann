@@ -1,0 +1,16 @@
+module.exports = [{
+    name: "name",
+    type: "messageDelete",
+    channel: "$getvar[logs]",
+    code: `
+    $author[$username;$useravatar]
+    $thumbnail[$guildIcon]
+    $description[
+        <@$authorid> vient de supprimer son message du salon <#$channelid>
+        
+        \`$message\`
+    ]
+    $footer[footer]
+    $color[$getvar[color]]
+    `
+}]

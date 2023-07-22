@@ -1,0 +1,11 @@
+module.exports = ({
+    name: "reboot",
+    aliases: ['restart'],
+    description: "Redemare le bot",
+    code: `
+        $title[Reboot]
+        $description[Le bot est en cours de redemarage !]
+        $footer[$getvar[footer]]
+        $color[$getvar[color]]
+    `
+})

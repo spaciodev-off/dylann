@@ -1,0 +1,26 @@
+module.exports = ({
+    name: "clear",
+    aliase: "purge",
+    $if: "old",
+    code: `
+        $clear[$sum[$message;1]]
+
+        $title[🙈 | Suppression de messages]
+        $thumbnail[$guildicon]
+        $description[\`$message\` messages ont été supprimés par <@$authorId> !]
+        $footer[$getvar[footer];$authorAvatar]
+        $color[$getvar[color]]
+        
+        $onlyIf[$message <= 99;:x: | Tu ne peut pas clear lus de 99 messages à la fois !]
+        $onlyIf[$message >= 1;:x: | Tu ne peut pas clear moins de 1 message !]
+        $onlyIf[$hasPerms[$guildID;$authorID;managemessages]==true;$getvar[noperm]]
+
+        $if[$getuservar[admin]==true]
+        $else
+        $onlyIf[$getuservar[staff]==true;$getvar[nocperm]]
+        $endif
+
+        $suppressErrors[$getvar[error]]
+    `
+})
+

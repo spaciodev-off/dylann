@@ -1,0 +1,8 @@
+module.exports = ({
+    name: 'eval',
+    code: `
+        $eval[$message]
+        
+        $onlyIf[$getuservar[admin]==true;$getvar[nocperm]]
+    `
+})

@@ -1,0 +1,39 @@
+module.exports = ({
+    name: "setbotperm",
+    aliases: ["sbp", "setbperm", "setbotperms", "setbperms"],
+    description: "Rajoute des permissions customs au membres !",
+    $if: "old",
+    code: `
+        $footer[$getvar[footer]]
+
+        $if[$message[1]==staff]
+
+            $setuservar[staff;$message[3];$authorId]
+            $title[Permissions Custom]
+            $description[Je viens de rajouter la permission \`$message[1]\` à <@$findUser[$message[2]]> !]
+            $color[$getvar[color]]
+            
+        $elseIf[$message[1]==staffp]
+
+            $setuservar[staffp;$message[3];$authorId]
+            $title[Permissions Custom]
+            $description[Je viens de rajouter la permission \`$message[1]\` à <@$findUser[$message[2]]> !]
+            $color[$getvar[color]]
+
+        $endelseif
+        $elseIf[$message[1]==admin]
+
+            $setuservar[admin;$message[3];$authorId]
+            $title[Permissions Custom]
+            $description[Je viens de rajouter la permission \`$message[1]\` à <@$findUser[$message[2]]> !]
+            $color[$getvar[color]]
+
+        $endelseif
+        $endif
+
+        $onlyIf[$message[1]!=;:x: | Merci de bien inscire une permission à donner.]
+        $onlyIf[$message[2]!=;$getvar[nouser]]
+        $onlyIf[$message[3] ]
+        
+    `
+})

@@ -1,0 +1,23 @@
+module.exports = ({
+    name: "unban",
+    category: "Moderation",
+    description: "Use this command to unban a user",
+    usage: "unban <id>",
+    $if: "old",
+    code: `
+        $unban[$message[1];Par $userTag[$authorID] Pour la raison: $sliceMessage[1]]
+        $title[Unban]
+        $description[$username[$message[1]] vient de se faire débannir ✅]
+        $onlyBotPerms[banmembers;$getvar[nobotperm]]
+        $argsCheck[>1;:x: | Merci de bien indiquer un identifiant (id) à débannir !]
+        $onlyPerms[banmembers;$getvar[noperm]]
+        $suppressErrors[$getvar[error] Ou alors je ne trouve pas la personne à débannir.]
+
+        $if[$getuservar[admin]==true]
+        $else
+        $onlyIf[$getuservar[staffp]==true;$getvar[nocperm]]
+        $endif
+
+        $suppressErrors[$getvar[error]]
+    `
+})

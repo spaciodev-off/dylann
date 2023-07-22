@@ -1,0 +1,44 @@
+module.exports = ({
+    name:"ban",
+    category: "Moderation",
+    usage: "ban <@user> ou <id>",
+    $if: "old",
+    code: `
+        $deletecommand
+
+        $color[$getvar[color]] 
+        $author[🛠️ Ban établi avec succès]
+        $addField[Info:;
+        Reason:
+        > $replaceText[$replaceText[$checkCondition[$messageSlice[1]==];true;\`Pas de raison fournise\`];false;$messageSlice[1]]
+        Date:
+        > $day $month $year
+        ]
+        $addField[Information sur lutilisateur;
+        $userTag[$findUser[$message[1]]] - $findUser[$message[1]]]
+        $addField[Moderator;
+        $userTag - $authorID]
+        $thumbnail[$userAvatar[$findUser[$message[1]]]]
+
+        $if[$memberExists[$findUser[$message[1]]]==true]
+        $onlyIf[$findUser[$message[1]]!=$authorID;:x: | Tu ne peut pas te bannir toi même !]
+        $onlyIf[$rolePosition[$highestRole[$findUser[$message[1]]]]>$rolePosition[$highestRole];"x" | Cette personne est hierarchiquement plus élevé !]
+        $onlyIf[$findUser[$message[1]]!=$clientID;:x: | Je ne peut pas me bannir moi même !]
+        $onlyIf[$findUser[$message[1]]!=$ownerID;:x: | Ce mec possède le serveur ._. !]
+        $elseIf[$memberExists[$findUser[$message[1]]]==false]
+        $onlyIf[$findUser[$message[1]]!=$authorID;:x: | Tu ne peut pas te bannir toi même !]
+        $endelseIf
+        $endif
+        $onlyIf[$isBanned[$findUser[$message[1]]]==false;:x: | Cet utilisateur est déja banni !]
+        $onlyIf[$message!=;$getvar[nouser]]
+        $onlyPerms[banmembers;$getvar[noperm]]
+        $onlyBotPerms[banmembers;$getvar[nobotperm]]
+        
+        $if[$getuservar[admin]==true]
+        $else
+        $onlyIf[$getuservar[staffp]==true;$getvar[nocperm]]
+        $endif
+
+        $suppressErrors[$getvar[error]]
+    `
+})
